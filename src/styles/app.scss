@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+@import "bootstrap/bootstrap";
+// @import "themes/bootswatch";
+@import "themes/variables";
+
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/bootstrap.css';
+
+@import "bm-mixins/_color_!impotant";
+@import "bm_variables";
+@import "alert";
+@import "card";
+@import "datatable";
+@import "form";
+@import "floating_btn";
+@import "input-underline";
+@import "utils";
+@import "spinner";
+@import "pulse";
+@import "list_group";
+@import "tooltip";
+@import "radio_button";
+@import "rtl";
+@import "responsive";
+@import "navbar";
+@import "navs";
+@import "menus";
+
+
+// @import "materialize/_material-dashboard";
+

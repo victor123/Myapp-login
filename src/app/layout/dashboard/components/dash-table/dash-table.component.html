@@ -1,0 +1,349 @@
+
+<div class="col-xl-5 col-lg-6 col-sm-12 date-ranges" tourAnchor="tour.date-ranges">
+
+	<select (change)="setMonthInMenu($event.target.value)" class="custom-select"
+	[value]="getMonthInMenu()">
+	
+      	<option *ngFor="let month of service.listOfMonths" class="dropdown-item" [value]="month"> {{month+'-'+service.today.getFullYear()}}
+	  	   </option>
+	
+    </select> 
+</div>
+
+<div class="col-xl-12 col-lg-12 col-sm-12 dash-table">
+
+    <div class="card mb-3 ">
+          <div class="card-header allow-center">
+            <span *ngIf="seletedRows.length > 0 then dataTableDeleteView; else nonDataTableDeleteView">
+            </span>
+
+           <ng-template #dataTableDeleteView>
+            <div class="temp-card-header seleted-items">
+              <span>{{seletedRows.length}}</span>
+              {{ 'Item' | pluralization: seletedRows.length  | translate }}
+              {{ 'seleted' | translate }}
+                <button class="btn btn-xs btn-danger ripple-danger"
+                (click)="bulkDelete()" [disabled]="!hideLoadSpin"
+                [ngClass]="{'pull-right': getIsMobileScreen() }" style="margin-left: 5px;">
+
+                    <span [hidden]="!hideLoadSpin">{{'Delete' | translate}}</span>
+
+                    <i class="fa fa-spinner fa-spin fa-1x fa-fw" [hidden]="hideLoadSpin"></i>
+
+                </button>
+            </div>
+           </ng-template>
+
+           <ng-template #nonDataTableDeleteView>
+            <div class="temp-card-header">
+                {{ 'Spendings List' | translate }}
+                <span placement="top" [ngbTooltip]="tipDashTableContent" >
+
+                    <i class="fa fa-question-circle "></i>
+                    <ng-template #tipDashTableContent>
+
+                      <p>
+
+                      	{{ 'Columns are resizable and sortable.' | translate }}
+
+                      </p>  
+
+                    </ng-template>
+                </span>
+
+                <button class="btn btn-xs btn-success ripple-success" (click)="updateTable()" [disabled]="!hideLoadSpin"
+                [ngClass]="{'pull-right': getIsMobileScreen() }" tourAnchor="tour.update.btn" style="margin-left: 5px;">
+
+                    <span [hidden]="!hideLoadSpin">{{'Update' | translate}}</span>
+
+                    <i class="fa fa-spinner fa-spin fa-1x fa-fw" [hidden]="hideLoadSpin"></i>
+
+                </button>
+            </div>
+           </ng-template>
+
+        </div>
+
+        <div class="dash-table-content" tourAnchor="tour.dash-table-content"> 
+            <ngx-datatable
+             class="bootstrap"
+             [limit]="20"
+             [rowHeight]="60"
+             [footerHeight]="50"
+             #dashTable
+             [rows]="service.dataTableDashboard"
+             [scrollbarH]="true"
+             [selected]="seletedRows"
+             [selectionType]="'checkbox'"
+             [selectAllRowsOnPage]="false"
+             [displayCheck]="displayCheck"
+             (select)='onSelect($event)'
+             trackByProp="date"
+             >
+
+            <!--check box -->
+            <ngx-datatable-column
+              [width]="30"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+              [headerCheckboxable]="true"
+              [checkboxable]="true">
+            </ngx-datatable-column>
+
+             <!-- for mobile view -->
+    	        <ngx-datatable-row-detail [rowHeight]="getIsMobileScreen() ? 323 : 9" #myDetailRow (toggle)="onDetailToggle($event)">
+
+    	            <ng-template  let-row="row" let-expanded="expanded" let-rowIndex="rowIndex"
+    	             ngx-datatable-row-detail-template>
+
+    	            <div class="row" *ngIf="getIsMobileScreen() then toMobileRendering else NoToMobileRendering">
+
+    	            </div>
+    	                <!-- <ng-template #NoToMobileRendering>
+    	                    <p style="text-align: center;font-style: bold;">Only for mobile rendering</p>
+    	                </ng-template> -->
+    	                <ng-template #toMobileRendering>
+
+    	                    <ul class="list-group col-sm-12">
+
+    	                        <li class="list-group-item">
+
+    	                            <strong>{{'Bundle Name' | translate}} </strong> : {{row.name}}
+    	                        </li>
+
+    	                        <li class="list-group-item">
+
+    	                            <strong>{{'Place' | translate}}</strong> : {{row.place}}
+
+    	                        </li>
+
+    	                        <li class="list-group-item">
+
+    	                            <strong>{{'Group' | translate}}</strong> : {{row.group}}
+
+    	                        </li>
+
+    	                        <li class="list-group-item"><strong>
+
+    	                            {{'Total Amount' | translate}}</strong> : {{row.total_amount}}
+
+    	                        </li>
+
+    	                        <li class="list-group-item">
+
+    	                            <strong>{{'Date' | translate}}</strong> :  {{row.date}}
+
+    	                                <div class="d-flex w-100 justify-content-between">
+
+    	                                    <small></small>
+
+    	                                </div>
+
+    	                            <span class="badge badge-default badge-pill">       {{getTheDays(row.date)}}
+
+    	                            </span>
+
+    	                        </li>
+
+    	                       <li class="list-group-item">
+
+    	                            <strong>{{'Action' | translate}}</strong> 
+
+    	                            <a href="entry/{{row.id}}">
+    	                                <i class="fa fa-pencil-square-o"></i>
+    	                            </a>
+
+    	                            <span class=" db-warning" (click)="deleteRow(row.id)">
+    	                                <i class="fa fa-eraser" >
+    	                                </i>
+    	                            </span>
+
+    	                        </li>   
+
+    	                    </ul>
+
+    	                </ng-template>
+
+    	            </ng-template>
+
+    	        </ngx-datatable-row-detail>
+
+             <!-- general view -->
+    	        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+
+    	            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+
+    	                <!-- not showing the `drop down only for mobile view` in mobile -->
+    	                <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+    	                    (click)="toggleExpandRow(row)"
+    	                    *ngIf="getIsMobileScreen()"
+    	                   >
+    	                </a>
+
+    	            </ng-template>
+
+    	            <!-- details shower -->
+    	        </ngx-datatable-column>
+
+                <ngx-datatable-column name="Action" prop="id">
+               
+                    <ng-template let-column="column"  let-sort="sortFn" ngx-datatable-header-template>
+                        {{column.name}}
+                    </ng-template>
+              
+                    <ng-template let-row="row" let-rowIndex="rowIndex" 
+                 let-value="value" ngx-datatable-cell-template >
+                 
+                        <a href="entry/{{value}}" >
+                         <i class="fa fa-pencil-square"></i>
+                        </a>   
+                  
+                        <!-- <span class="db-warning">
+                  
+                          <i class="fa fa-trash" (click)="deleteRow(value, rowIndex)">
+                         </i>
+                  
+                        </span>   -->           
+               
+                    </ng-template>
+            
+                </ngx-datatable-column>
+
+             <ngx-datatable-column name="Series No" >
+
+                 <ng-template  let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+
+                     <span >{{ column?.name | translate }}</span>
+
+                 </ng-template>
+
+                 <ng-template style="background-color: rgba(241, 235, 235, 0.05);" let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+                     {{rowIndex}}
+                 </ng-template>
+
+             </ngx-datatable-column>
+
+             <ngx-datatable-column name="Bundle Name" prop="name">
+
+                 <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+
+                     <span (click)="sort()">{{ column?.name | translate }}</span>
+
+                 </ng-template>
+
+                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                     {{value}}
+
+                 </ng-template>
+
+             </ngx-datatable-column>
+
+             <ngx-datatable-column name="Place" prop="place">
+
+                 <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                  
+                        <span (click)="sort()">{{column?.name | translate}}</span>
+                 
+                    </ng-template>
+                 
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                   
+                        {{value}}
+                 </ng-template>
+             
+                </ngx-datatable-column>
+             
+                <ngx-datatable-column name="Group" prop="group">
+             
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+             
+                        <span (click)="sort()">{{column?.name | translate}}</span>
+             
+                    </ng-template>
+             
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+             
+                        {{value}}
+             
+                    </ng-template>
+             
+                </ngx-datatable-column>
+             
+                <ngx-datatable-column name="Total Amount" prop="total_amount">
+             
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+             
+                        <span (click)="sort()">{{column?.name | translate}}</span>
+              
+                    </ng-template>
+              
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            
+                        {{value}}
+           
+                    </ng-template>
+           
+                </ngx-datatable-column>
+           
+                <ngx-datatable-column name="Date Count" prop="date">
+           
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            
+                        <span (click)="sort()">{{column?.name | translate}}
+                        </span>
+            
+                    </ng-template>
+             
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+               
+                        <span placement="left" [ngbTooltip]="value"
+                     >
+                
+                            {{ getTheDays(value) }}
+                 
+                        </span>
+               
+                    </ng-template>
+             
+                </ngx-datatable-column>
+
+               <ngx-datatable-footer>
+                
+                  <ng-template 
+                    ngx-datatable-footer-template
+                    let-rowCount="rowCount"
+                    let-pageSize="pageSize"
+                    let-selectedCount="selectedCount"
+                    let-curPage="curPage"
+                    let-offset="offset"
+                    let-isVisible="isVisible">
+                   
+                      <div class="page-count">
+                        {{'Total List Count' | translate}}: {{rowCount.toLocaleString() }}
+                      </div>
+                     
+                      <datatable-pager
+                          [pagerLeftArrowIcon]="'datatable-icon-left'"
+                          [pagerRightArrowIcon]="'datatable-icon-right'"
+                          [pagerPreviousIcon]="'datatable-icon-prev'"
+                          [pagerNextIcon]="'datatable-icon-skip'"
+                          [page]="curPage"
+                          [size]="pageSize"
+                          [count]="rowCount"
+                          [hidden]="!((rowCount / pageSize) > 1)"
+                           (change)="dashTable.onFooterPage($event)">
+                      </datatable-pager>
+                
+                  </ng-template>
+               
+                </ngx-datatable-footer>
+          
+            </ngx-datatable>
+        </div>
+  
+    </div>
+
+</div>

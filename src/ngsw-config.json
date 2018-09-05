@@ -1,0 +1,44 @@
+{
+  "index": "/index.html",
+  "assetGroups": [{
+    "name": "app",
+    "installMode": "prefetch",
+    "resources": {
+      "files": [
+        "/icons/",
+        "/index.html",
+        "ngsw-worker.js"
+      ],
+      "files": [
+        "/*.bundle.css",
+        "/*.bundle.js",
+        "/*.chunk.js"
+      ],
+      "urls": []
+    }
+  }, {
+    "name": "assets",
+    "installMode": "lazy",
+    "updateMode": "prefetch",
+    "resources": {
+      "files": [
+        "/assets/**"
+      ],
+      "urls": [
+        "https://fonts.googleapis.com/**"
+      ]
+    }
+  }],
+  "dataGroups": [
+    {
+      "name": "dataGroupsCatch",
+      "urls": ["api/package/itemslist/", "api/package/mba/**", "/api/package/get_month/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 20,
+        "maxAge": "1h",
+        "timeout": "5s"
+      }
+    }
+  ]
+}

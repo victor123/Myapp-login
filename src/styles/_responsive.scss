@@ -1,0 +1,21 @@
+@media screen and (max-width: 992px) {
+    .push-right {
+        .sidebar {
+            left: 235px !important;
+        }
+    }
+    .navbar-brand {
+    	// padding: 0.25rem 0.75rem;
+    	font-size: 21px;
+    }
+
+    .navbar-toggler {
+
+        border-color: $material-white;
+        
+        .navbar-toggler-icon > i {
+            color: $bm-font-color;
+        }
+
+    }
+}

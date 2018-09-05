@@ -1,0 +1,110 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Dashboard'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    
+<tour-step-template>
+  
+  <ng-template let-step="step" class="pulse">
+
+    <p class="tour-step-content">{{step?.content}}</p>
+
+    <div class="tour-step-navigation">
+
+          <button *ngIf="tour.tourService.hasPrev(step)" class="btn btn-sm btn-default" (click)="tour.tourService.prev()">
+            {{step?.prevBtnTitle}}
+          </button>
+
+          <button *ngIf="tour.tourService.hasNext(step)" class="btn btn-sm btn-default" (click)="tour.tourService.next()">
+            {{step?.nextBtnTitle}}
+          </button>
+
+          <button class="btn btn-sm btn-default" (click)="tour.tourService.end()">
+            {{step?.endBtnTitle}}
+          </button>
+
+    </div>
+
+  </ng-template>
+
+</tour-step-template>
+
+    <app-dash-table></app-dash-table>
+    
+    <app-notification [categoriesArray]="categoriesArray"></app-notification>
+<!--     <app-chat></app-chat>
+    <app-timeline></app-timeline> -->
+
+    <div class="fixed-action-btn float-right">
+        
+        <button>
+            
+            <i class="fa fa-eject"></i>
+            
+        </button>
+        <ul>
+            <li>
+                <button (click)="open(summaryEmail)">
+                    <i class="fa fa-print" ></i>
+                </button>
+            </li>
+            <li>
+                <button  (click)="tour.startTour()" class="first-color" tourAnchor="start.tour.dashboard">
+                    <i class="fa fa-train" ></i>
+                </button>
+            </li>
+            <li>
+              <button class="second-color" routerLink="/entry" [routerLinkActive]="['router-link-active']" [ngbTooltip]="tooltipNewEntry" placement="left">
+                  <i class="fa fa-plus"></i>
+                  <ng-template #tooltipNewEntry>
+                    {{ 'New Entry' | translate }} 
+                  </ng-template>
+              </button>
+            </li>
+        </ul>
+    </div>
+
+  <ng-template #summaryEmail let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+
+      <h4 class="modal-title">
+        {{ 'Summary Export' | translate }}
+      </h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+
+        <span aria-hidden="true">&times;</span>
+
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <p>
+
+        {{ 'Get email summary for' | translate }}
+
+        <select class="custom-select"
+        [value]="printSummaryKeys[0]"
+        (change)="onChangePrintSummary($event.target.value)">
+        
+              <option *ngFor="let key of printSummaryKeys" class="dropdown-item" [value]="key"> {{customizeSummaryKey(key) | translate }}
+               </option>
+
+        </select> 
+        {{ 'as attachments' | translate }}
+      </p>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <button class="btn btn-info" (click)="getPrintSummary(); d('Sending')" >{{'Send' | translate}}</button>
+
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">{{'Close' | translate}}</button>
+
+      </div>
+
+  </ng-template>
+
+</div>

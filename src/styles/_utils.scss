@@ -1,0 +1,78 @@
+
+.fs-12 {
+    font-size: 12px;
+}
+/* Button style */
+button {
+  border: none;
+  border-radius: 2px;
+  padding: 12px 18px;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: white;
+  background-color: #2196f3;
+  box-shadow: 0 0 4px #999;
+  outline: none;
+}
+
+
+.ripple {
+   background-position: center;
+   transition: background 0.8s;
+
+   &:hover {
+     background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+     color: $bm-font-color;
+    }
+
+   &:active {
+      background-color: #47a7f5;
+      background-size: 100%;
+      transition: background 0s;
+   }
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+.app-button {
+   @extend .ripple;
+   background-color: $bm-color;
+   color: $bm-font-color;
+
+   .bm-bnt-red {
+     background-color: red !important;
+   }
+}
+
+.bm-btn-group {
+  * {
+    margin-right: 5px;
+  }
+}
+
+
+.allow-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.custom-select {
+  border: 0;
+}
+
+.modal.show .modal-dialog {
+  margin-top: 10%;
+}
+
+.entrySubItem-action {
+  color: $bm-color;
+}
+
+@media screen and (max-width: 992px) {
+    .modal-content {
+        margin-top: 20%;
+    }
+}

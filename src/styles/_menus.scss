@@ -1,0 +1,34 @@
+
+.navbar {
+    background-color: $bm-color;
+}
+
+.navbar .nav-item > a {
+    color: $bm-font-color;
+}
+
+.sidebar {
+    background-color: $bm-color;
+    color: $bm-font-color; 
+}
+
+.sidebar .list-group a.list-group-item {
+    background-color: $bm-color;
+    color: $bm-font-color;
+}
+
+.sidebar .list-group a {
+   background-position: center;
+   transition: background 0.8s;
+    &:hover {
+     background: $material-blue-600 radial-gradient(circle, transparent 1%, $material-blue-600 1%) center/15000% !important;
+     color: $bm-hover-font-color;
+    }
+
+   &:active {
+      background-color: $material-blue-600 !important;
+      background-size: 100%;
+      transition: background 0s;
+   }
+
+}

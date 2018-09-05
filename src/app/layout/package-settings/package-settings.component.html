@@ -1,0 +1,137 @@
+<div [@routerTransition] class="container-fluid pagination-centered profile"  >
+
+	<app-page-header [heading]="'Settings'" [icon]="'fa-etsy'"></app-page-header>
+	<div class="container">
+		<div class="row p-content">
+
+			<div class="col-lg-12 col-xs-12 p-body">
+
+				<div class="row align-items-start">
+
+					<div class="col-lg-4 col-xs-6">
+
+						<h2>Package Settings</h2>
+
+						<p>
+							{{'Package setting controls the chart, dashboard, new entry elements by retrieving the required data from the server and from the user.' | translate}}
+						</p>
+
+					</div>
+
+					<div *ngIf="!hideLoadSpin" class="col-lg-8 col-xs-6 " >
+
+						<i class="fa fa-spinner fa-spin fa-1x fa-fw " style="font-size: 50px;" ></i>
+
+					</div>
+
+					<div class="col-lg-8 col-xs-6" *ngIf="hideLoadSpin">
+						<form [formGroup]="packageSettingForm" (ngSubmit)="onSubmitPackageSettings()"  >
+
+							<div class="form-group">
+
+								<input type="text" name="packCurrencyDetails" [ngbTypeahead]="typeAheadForCurrency"
+					 			[resultFormatter]="formatter"
+					 			formControlName="packCurrencyDetails"
+					 			pattern="[A-Z]{3}"
+					 			placeholder="Country Code" class="form-control">
+
+							</div>
+
+							<div class="form-group">
+
+								<p>
+									{{'Select Yes option for model automatically asking Month Amount' | translate}}
+								</p>
+
+
+
+								<label class="label-container" for="mbaForceUpdateYes">
+								<input  type="radio" name="packForceMbaUpdate" id="mbaForceUpdate"  value="Y"
+								formControlName="packForceMbaUpdate">
+								<span class="checkmark"></span>
+									{{  'Yes' | translate }}
+								</label>
+
+
+								<label class="label-container" for="mbaForceUpdateNo">
+								<input type="radio" name="packForceMbaUpdate" id="mbaForceUpdate"  value="N" 
+								formControlName="packForceMbaUpdate">
+								<span class="checkmark"></span>
+									{{ 'No' | translate }}
+								</label>
+
+							</div>
+
+							<div class="form-group">
+
+								<p>
+									{{'Select Yes option for activating Paytm uploading' | translate}}
+
+							    </p>
+
+								<!-- <br> -->
+								<input type="radio" name="packActivePaytm" id="paytmActiveYes" value="Y"
+								formControlName="packActivePaytm">
+
+								<label for="paytmActiveYes">	{{  'Yes' | translate }}
+								</label>
+
+								<input type="radio" name="packActivePaytm" id="paytmActiveNo" value="N" 
+								formControlName="packActivePaytm" checked="checked">
+
+								<label for="paytmActiveNo">
+									{{ 'No' | translate }}
+								</label>
+
+							</div>
+
+							<div class="bm-btn-group">
+
+								<button class="btn app-button allow-center"> {{ 'Submit' | translate }} 
+								</button>
+
+                <button class="btn app-button allow-center" (click)="getOrSetPackageSettingForm()">
+                
+                    {{ 'Cancle' | translate }}
+                
+                </button>
+
+							</div>
+
+						</form>
+					
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+<!--    review and important one
+     <div class="row align-items-start">
+
+            <div class="col-lg-4 col-xs-6">
+
+                <h2>Weather's Settings</h2>
+
+                <p>
+                    Weather setting is related to the control of 
+                    weather element dispaly in the app.
+                </p>
+
+            </div>
+
+            <div *ngIf="!hideLoadSpin" class="col-lg-8 col-xs-6 " >
+
+                <i class="fa fa-spinner fa-spin fa-1x fa-fw " style="font-size: 50px;" ></i>
+
+            </div>
+
+            <div class="col-lg-8 col-xs-6" *ngIf="hideLoadSpin">
+            </div>
+            
+        </div> -->
+
+	</div>
+</div>
